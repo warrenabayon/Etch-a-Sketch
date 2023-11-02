@@ -4,9 +4,10 @@ body {
   flex-direction: column; */
 }
 
-/* .row:nth-child(even) {
-  background-color: #E7E9EB;
-} */
+button.crtBtn {
+  margin: 30px auto;
+  display: flex;
+}
 
 
 .container {
