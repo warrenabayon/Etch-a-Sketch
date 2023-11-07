@@ -14,87 +14,73 @@
 <!-- <script src="js/app.js"></script> -->
 <script>
 
-  function createSketchPad() {
+  function makeSketch(){
 
+    //create button make sketch
     const body = document.querySelector('body');
-    const createBtn = document.createElement('button');
-    const resetBtn = document.createElement('button');
-    resetBtn.classList.add('reset');
-    resetBtn.textContent = "RESET";
-    createBtn.classList.add('crtBtn');
-    createBtn.textContent = 'Create Sketch Pad';
-    body.appendChild(createBtn);
+    const btnCreateSquare = document.createElement('button');
+    btnCreateSquare.textContent = 'Create Sketch';
+    btnCreateSquare.classList.add('make-square');
+    body.appendChild(btnCreateSquare);
+    const btnReset = document.createElement('button');
+    btnReset.classList.add('reset');
+    btnReset.textContent = 'RESET';
 
-    const makeSquares = ()=> {
 
-      const checkIfExist = ()=> {
-        const cnt = document.querySelector('.container');
-        if (cnt !==null) {
-          cnt.remove();
-          createInsideDiv();
-        } else {
-          createInsideDiv();
-        }
-      }      
-    
-      checkIfExist();
+    //change color randomly
+    const changeColor = ()=> {
+      const rainbow = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+      const randomColor = Math.floor(Math.random() * rainbow.length);
+      event.target.style.backgroundColor = rainbow[randomColor];
+    };
 
-      function createInsideDiv() {
+    const makeGrid = ()=> {
+      const numberOfSquare = prompt('Enter of Square', '..max 100');
+
+      //validate
+      if (!(isNaN(numberOfSquare) || numberOfSquare > 100 || numberOfSquare <= 0)) {
+
+        //make container
         const container = document.createElement('div');
         container.classList.add('container');
+        container.style.gridTemplateColumns = `repeat(${numberOfSquare}, 1fr)`;
         body.appendChild(container);
-        body.appendChild(resetBtn);
-        const squareNumber = prompt('Enter number of squares per side');
+        body.appendChild(btnReset);
 
-        const changeColor = ()=> {
-          const rainbowColors = ['red', 'orange', 'yellow','green', 'blue', 'indigo', 'violet']
-          const ranNumber = Math.floor(Math.random() * rainbowColors.length);
-          // console.log(ranNumber);
-          event.target.style.backgroundColor = `${rainbowColors[ranNumber]}`;
+        for (i = 0; i < +numberOfSquare * +numberOfSquare; i++){
+          const square = document.createElement('div');
+          square.setAttribute('class', `square sq${i}`);
+          container.appendChild(square);
+
+          square.addEventListener('mouseover', changeColor);
+          btnReset.addEventListener('click', ()=> {
+            square.style.backgroundColor = 'white';
+          })
         }
-
-
-
-        if (+squareNumber < 100){
-          // container.style.gridTemplateColumns = `repeat(${squareNumber}, 1fr)`;
-          container.setAttribute('style', `grid-template-columns: repeat(${+squareNumber}, 1fr);`);
-
-          
-
-          for (i = 0; i < (+squareNumber * +squareNumber); i++){
-
-            
-
-            const square = document.createElement('div');
-            square.setAttribute('class', `square sr${i}`);
-            container.appendChild(square);
-            
-            
-            square.addEventListener('mouseover',changeColor);
-
-            resetBtn.addEventListener('click', ()=> {
-              square.style.backgroundColor = '#fff';
-            })
-          } 
-
-          
-
-        } 
         
+      }
 
-        }
-
-    
     };
-    
 
-    createBtn.addEventListener('click', makeSquares);
-    
+    //Create button action
+    btnCreateSquare.addEventListener('click', ()=> {
+      
+      const chkContainer = document.querySelector('.container');
+      if (chkContainer !==null) {
+        chkContainer.remove();
+        makeGrid(); 
+      } else {
+        makeGrid();
+      }
+      });
+
+  
+
 
   }
 
+  makeSketch();
 
-  createSketchPad();
 
 </script>
 </body>
