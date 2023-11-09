@@ -31,8 +31,14 @@
     const changeColor = ()=> {
       const rainbow = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
       const randomColor = Math.floor(Math.random() * rainbow.length);
-      event.target.style.backgroundColor = rainbow[randomColor];
+      // event.target.style.backgroundColor = rainbow[randomColor];
+      event.target.style.backgroundColor = '#f3f3f3';
+      
+      
     };
+
+
+
 
     const makeGrid = ()=> {
       const numberOfSquare = prompt('Enter of Square', '..max 100');
@@ -52,7 +58,18 @@
           square.setAttribute('class', `square sq${i}`);
           container.appendChild(square);
 
-          square.addEventListener('mouseover', changeColor);
+              //darken color ever hover
+              const darkenSquare = () => {
+                let currentBrightness = square.dataset.brightness || 100;
+                currentBrightness = parseInt(currentBrightness) - 10;
+
+                if (currentBrightness >= 0) {
+                    square.style.filter = `brightness(${currentBrightness}%)`;
+                    square.dataset.brightness = currentBrightness;
+                }
+              }; //
+
+          square.addEventListener('mouseover', darkenSquare);
           btnReset.addEventListener('click', ()=> {
             square.style.backgroundColor = 'white';
           })
